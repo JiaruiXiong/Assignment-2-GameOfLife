@@ -29,7 +29,7 @@ function Circle(game) {         // 画圈圈
 };
 
 Circle.prototype = new Entity();
-Circle.prototype.constructor = BumperCar;
+Circle.prototype.constructor = Circle;
 
 Circle.prototype.setIt = function () {
     this.it = true;
@@ -154,12 +154,12 @@ Circle.prototype.update = function () {
 };
 
 Circle.prototype.draw = function (ctx) {
-    ctx.drawImage(this.bumperCar, this.x, this.y,150,150);
-    // ctx.beginPath();
-    // ctx.fillStyle = this.colors[this.color];
-    // ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-    // ctx.fill();
-    // ctx.closePath();
+    // ctx.drawImage(this.bumperCar, this.x, this.y,150,150);
+    ctx.beginPath();
+    ctx.fillStyle = this.colors[this.color];
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+    ctx.fill();
+    ctx.closePath();
 };
 
 
