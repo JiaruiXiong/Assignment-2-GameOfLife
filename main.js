@@ -7,9 +7,9 @@ function distance(a, b) {    // 两点距离公式
     return Math.sqrt(dx * dx + dy * dy);
 }
 
-function BumperCar(game) {         // 画圈圈
+function Circle(game) {         // 画圈圈
 
-
+    this.bumperCar = ASSET_MANAGER.getAsset("./bumper car.png");
     this.player = 1;
     this.radius = 10;
     this.visualRadius = 200;
@@ -28,42 +28,42 @@ function BumperCar(game) {         // 画圈圈
     }
 };
 
-BumperCar.prototype = new Entity();
-BumperCar.prototype.constructor = BumperCar;
+Circle.prototype = new Entity();
+Circle.prototype.constructor = BumperCar;
 
-BumperCar.prototype.setIt = function () {
+Circle.prototype.setIt = function () {
     this.it = true;
     this.color = 0;
     this.visualRadius = 500;
 };
 
-BumperCar.prototype.setNotIt = function () {
+Circle.prototype.setNotIt = function () {
     this.it = false;
     this.color = 3;
     this.visualRadius = 200;
 };
 
-BumperCar.prototype.collide = function (other) {
+Circle.prototype.collide = function (other) {
     return distance(this, other) < this.radius + other.radius;
 };
 
-BumperCar.prototype.collideLeft = function () {
+Circle.prototype.collideLeft = function () {
     return (this.x - this.radius) < 0;
 };
 
-BumperCar.prototype.collideRight = function () {
+Circle.prototype.collideRight = function () {
     return (this.x + this.radius) > 800;
 };
 
-BumperCar.prototype.collideTop = function () {
+Circle.prototype.collideTop = function () {
     return (this.y - this.radius) < 0;
 };
 
-BumperCar.prototype.collideBottom = function () {
+Circle.prototype.collideBottom = function () {
     return (this.y + this.radius) > 800;
 };
 
-BumperCar.prototype.update = function () {
+Circle.prototype.update = function () {
     Entity.prototype.update.call(this);
  //  console.log(this.velocity);
 
@@ -153,17 +153,17 @@ BumperCar.prototype.update = function () {
     this.velocity.y -= (1 - friction) * this.game.clockTick * this.velocity.y;
 };
 
-BumperCar.prototype.draw = function (ctx) {
-    ctx.beginPath();
-    ctx.fillStyle = this.colors[this.color];
-    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-    ctx.fill();
-    ctx.closePath();
+Circle.prototype.draw = function (ctx) {
+    ctx.drawImage(this.bumperCar, this.x, this.y,150,150);
+    // ctx.beginPath();
+    // ctx.fillStyle = this.colors[this.color];
+    // ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+    // ctx.fill();
+    // ctx.closePath();
 };
 
 
 
-ASSET_MANAGER.queueDownload("./img/totororunning.png");
 
 // the "main" code begins here
 var friction = 1;
@@ -178,12 +178,12 @@ ASSET_MANAGER.downloadAll(function () {
     var ctx = canvas.getContext('2d');
 
     var gameEngine = new GameEngine();
-    // var bump = new BumperCar(gameEngine);
-    // bump.setIt();
-    // gameEngine.addEntity(bump);
+    var circle = new Circle(gameEngine);
+    circle.setIt();
+    gameEngine.addEntity(circle);
     for (var i = 0; i < 12; i++) {
-        bump = new BumperCar(gameEngine);
-        gameEngine.addEntity(bump);
+        circle = new Circle(gameEngine);
+        gameEngine.addEntity(circle);
     }
     gameEngine.init(ctx);
     gameEngine.start();
