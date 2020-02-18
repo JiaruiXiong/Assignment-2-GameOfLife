@@ -63,7 +63,6 @@ Life.prototype.draw = function() {
         
           // count live neighbors!
         
-        //   let sum = 0; // 目前不需要
           let neighbors = countNeighbors(this.grid, i,j,this.cols, this.rows);
   
         
