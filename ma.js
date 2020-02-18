@@ -10,6 +10,7 @@ function Background(game) {
     this.y = 0;
     this.game = game;
     this.ctx = game.ctx;
+    
 };
 
 Background.prototype.draw = function () {
@@ -32,9 +33,57 @@ function GameLife(game,width, height) {
     this.cols = this.width / this.resolution;
     this.rows = this.height/ this.resolution;
     this.grid = make2DArray(this.cols, this.rows);
+
+    //randomize 0 or 1 in the grid
     for (let i = 0; i < this.cols; i++) {
         for (let j = 0; j < this.rows; j++) {
-            this.grid[i][j] =Math.floor(Math.random() * 2);
+            if ((i === 1 && j === 5)
+                ||  (i === 1 && j === 6)
+                ||  (i === 2 && j === 5)
+                ||  (i === 2 && j === 6)
+                ||  (i === 10 && j === 5)
+                ||  (i === 10 && j === 6)
+                ||  (i === 10 && j === 7)
+                ||  (i === 11 && j === 8)
+                ||  (i === 12 && j === 9)
+                ||  (i === 13 && j === 9)
+                
+                ||  (i === 11 && j === 4)
+                ||  (i === 12 && j === 3)
+                ||  (i === 13 && j === 3)
+
+                ||  (i === 14 && j === 6)
+                ||  (i === 15 && j === 4)
+                ||  (i === 16 && j === 5)
+                ||  (i === 16 && j === 6)
+                ||  (i === 17 && j === 6)
+                ||  (i === 16 && j === 7)
+                ||  (i === 15 && j === 8)
+
+                ||  (i === 20 && j === 5)
+                ||  (i === 20 && j === 4)
+                ||  (i === 20 && j === 3)
+                ||  (i === 21 && j === 5)
+                ||  (i === 21 && j === 4)
+                ||  (i === 21 && j === 3)
+                ||  (i === 22 && j === 2)
+                ||  (i === 24 && j === 2)
+                ||  (i === 24 && j === 1)
+
+                ||  (i === 22 && j === 6)
+                ||  (i === 24 && j === 6)
+                ||  (i === 24 && j === 7)
+
+                ||  (i === 34 && j === 4)
+                ||  (i === 34 && j === 3)
+                ||  (i === 35 && j === 4)
+                ||  (i === 35 && j === 3)
+                
+                ) {
+                    this.grid[i][j] = 1;
+
+            }
+            // this.grid[i][j] =Math.floor(Math.random() * 2);
         }
     }
     this.game = game;
@@ -42,12 +91,14 @@ function GameLife(game,width, height) {
 }
 
 GameLife.prototype.draw = function () {
+    // console.log("fafa");
     for (let i = 0; i < this.cols; i++) {
         for (let j = 0; j < this.rows; j++) {
             let x = i * this.resolution;
             let y = j * this.resolution;
             if (this.grid[i][j] === 1) {
-                this.ctx.fillStyle = generateRandomColor();
+                // this.ctx.fillStyle = generateRandomColor();
+                this.ctx.fillStyle = 'White';
                 this.ctx.fillRect(x,y,this.resolution-1, this.resolution-1);
             }
         }
@@ -55,6 +106,7 @@ GameLife.prototype.draw = function () {
 }
 
 GameLife.prototype.update = function () {
+    // console.log("hah");
     let next = make2DArray(this.cols, this.rows);
     for (let i = 0; i < this.cols; i++) {
         for (let j = 0; j < this.rows; j++) {
@@ -65,7 +117,7 @@ GameLife.prototype.update = function () {
             next[i][j] = 1;
          
           }
-          else if (  state === 1 && (neighbors <2 || neighbors > 3)) {
+          else if ( state === 1 && (neighbors <2 || neighbors > 3)) {
             next[i][j] = 0;
           }
           else {
@@ -73,16 +125,17 @@ GameLife.prototype.update = function () {
           } 
         } 
     }
-    if (checkTwoState(this.grid, next)) {
-        for (let i = 0; i < this.cols; i++) {
-            for (let j = 0; j < this.rows; j++) {
-                this.grid[i][j] =Math.floor(Math.random() * 2);
-            }
-        }
-    }
-    else {
-        this.grid = next;
-    }
+    this.grid = next;
+    // if (checkTwoState(this.grid, next)) {
+    //     for (let i = 0; i < this.cols; i++) {
+    //         for (let j = 0; j < this.rows; j++) {
+    //             this.grid[i][j] =Math.floor(Math.random() * 2);
+    //         }
+    //     }
+    // }
+    // else {
+    //     this.grid = next;
+    // }
     
 }
 
@@ -132,8 +185,6 @@ function checkTwoState(first, second) {
 
 
 
-
-AM.queueDownload("./img/RobotUnicorn.png"); // I must download something
 // AM.queueDownload("./img/mushroomdude.png");
 
 
