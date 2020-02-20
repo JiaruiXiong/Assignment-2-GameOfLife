@@ -37,10 +37,10 @@ function GameLife(game,width, height) {
     //randomize 0 or 1 in the grid
     for (let i = 0; i < this.cols; i++) {
         for (let j = 0; j < this.rows; j++) {
-            if ((i === 1 && j === 1)
-                ||  (i === 1 && j === 0)
+            if ((i === 4 && j === 4)
+                ||  (i === 4 && j === 5)
                 // ||  (i === 0 && j === 1)
-                ||  (i === 1 && j === 2)
+                ||  (i === 4 && j === 6)
                 // ||  (i === 2 && j === 1 )
             //     ||  (i === 2 && j === 6)
             //     ||  (i === 10 && j === 5)
@@ -161,7 +161,8 @@ function generateRandomColor()
 
 function countNeighbors(grid, x, y,cols, rows) {
     let sum = 0;
-    console.log(sum);
+    // console.log(sum);
+    // console.log(grid[-1]);
     for (let i = -1; i <2; i++) {
       for (let j = -1; j < 2; j++) {
         let col = (x+i+cols) % cols;
