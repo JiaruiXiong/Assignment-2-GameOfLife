@@ -1,190 +1,210 @@
-var ASSET_MANAGER = new AssetManager();
-// GameBoard code below
+var AM = new AssetManager();
+// What is 'Coolness factor' and emergent properties ???
 
-function distance(a, b) {    // 两点距离公式
-    var dx = a.x - b.x;
-    var dy = a.y - b.y;
-    return Math.sqrt(dx * dx + dy * dy);
+
+
+
+// no inheritance
+function Background(game) {
+    this.x = 0;
+    this.y = 0;
+    this.game = game;
+    this.ctx = game.ctx;
+    
+};
+
+Background.prototype.draw = function () {
+    // this.ctx.fillStyle = generateRandomColor(); 
+    this.ctx.fillStyle = 'Black';
+    this.ctx.fillRect(this.x, this.y, 800, 600);
+};
+
+Background.prototype.update = function () {
+};
+
+
+
+
+// MushroomDude class
+function GameLife(game,width, height) {
+    this.width = width;
+    this.height = height;
+    this.resolution = 10;
+    this.cols = this.width / this.resolution;
+    this.rows = this.height/ this.resolution;
+    this.grid = make2DArray(this.cols, this.rows);
+
+    //randomize 0 or 1 in the grid
+    for (let i = 0; i < this.cols; i++) {
+        for (let j = 0; j < this.rows; j++) {
+            if ((i === 1 && j === 1)
+                ||  (i === 1 && j === 0)
+                // ||  (i === 0 && j === 1)
+                ||  (i === 1 && j === 2)
+                // ||  (i === 2 && j === 1 )
+            //     ||  (i === 2 && j === 6)
+            //     ||  (i === 10 && j === 5)
+            //     ||  (i === 10 && j === 6)
+            //     ||  (i === 10 && j === 7)
+            //     ||  (i === 11 && j === 8)
+            //     ||  (i === 12 && j === 9)
+            //     ||  (i === 13 && j === 9)
+                
+            //     ||  (i === 11 && j === 4)
+            //     ||  (i === 12 && j === 3)
+            //     ||  (i === 13 && j === 3)
+
+            //     ||  (i === 14 && j === 6)
+            //     ||  (i === 15 && j === 4)
+            //     ||  (i === 16 && j === 5)
+            //     ||  (i === 16 && j === 6)
+            //     ||  (i === 17 && j === 6)
+            //     ||  (i === 16 && j === 7)
+            //     ||  (i === 15 && j === 8)
+
+            //     ||  (i === 20 && j === 5)
+            //     ||  (i === 20 && j === 4)
+            //     ||  (i === 20 && j === 3)
+            //     ||  (i === 21 && j === 5)
+            //     ||  (i === 21 && j === 4)
+            //     ||  (i === 21 && j === 3)
+            //     ||  (i === 22 && j === 2)
+            //     ||  (i === 24 && j === 2)
+            //     ||  (i === 24 && j === 1)
+
+            //     ||  (i === 22 && j === 6)
+            //     ||  (i === 24 && j === 6)
+            //     ||  (i === 24 && j === 7)
+
+            //     ||  (i === 34 && j === 4)
+            //     ||  (i === 34 && j === 3)
+            //     ||  (i === 35 && j === 4)
+            //     ||  (i === 35 && j === 3)
+                
+                ) {
+                    this.grid[i][j] = 1;
+
+            }
+            // this.grid[i][j] =1//Math.floor(Math.random() * 2);
+        }
+    }
+    this.game = game;
+    this.ctx = game.ctx;
 }
 
-function Circle(game) {         // 画圈圈
-
-    this.bumperCar = ASSET_MANAGER.getAsset("./bumper car.png");
-    this.player = 1;
-    this.radius = 10;
-    this.visualRadius = 200;
-    this.colors = ["Red", "Green", "Blue", "White"];
-    this.setNotIt();
-    Entity.call(this, game, this.radius + Math.random() * (800 - this.radius * 2), this.radius + Math.random() * (800 - this.radius * 2));
-
-    this.velocity = { x: Math.random() * 1000, y: Math.random() * 1000 };
-    if (Math.random() > 0.5) this.velocity.x = -this.velocity.x;
-    if (Math.random() > 0.5) this.velocity.y = -this.velocity.y;
-    var speed = Math.sqrt(this.velocity.x * this.velocity.x + this.velocity.y * this.velocity.y);
-    if (speed > maxSpeed) {
-        var ratio = maxSpeed / speed;
-        this.velocity.x *= ratio;
-        this.velocity.y *= ratio;
-    }
-};
-
-Circle.prototype = new Entity();
-Circle.prototype.constructor = Circle;
-
-Circle.prototype.setIt = function () {
-    this.it = true;
-    this.color = 0;
-    this.visualRadius = 500;
-};
-
-Circle.prototype.setNotIt = function () {
-    this.it = false;
-    this.color = 3;
-    this.visualRadius = 200;
-};
-
-Circle.prototype.collide = function (other) {
-    return distance(this, other) < this.radius + other.radius;
-};
-
-Circle.prototype.collideLeft = function () {
-    return (this.x - this.radius) < 0;
-};
-
-Circle.prototype.collideRight = function () {
-    return (this.x + this.radius) > 800;
-};
-
-Circle.prototype.collideTop = function () {
-    return (this.y - this.radius) < 0;
-};
-
-Circle.prototype.collideBottom = function () {
-    return (this.y + this.radius) > 800;
-};
-
-Circle.prototype.update = function () {
-    Entity.prototype.update.call(this);
- //  console.log(this.velocity);
-
-    this.x += this.velocity.x * this.game.clockTick;
-    this.y += this.velocity.y * this.game.clockTick;
-
-    if (this.collideLeft() || this.collideRight()) {
-        this.velocity.x = -this.velocity.x * friction;
-        if (this.collideLeft()) this.x = this.radius;
-        if (this.collideRight()) this.x = 800 - this.radius;
-        this.x += this.velocity.x * this.game.clockTick;
-        this.y += this.velocity.y * this.game.clockTick;
-    }
-
-    if (this.collideTop() || this.collideBottom()) {
-        this.velocity.y = -this.velocity.y * friction;
-        if (this.collideTop()) this.y = this.radius;
-        if (this.collideBottom()) this.y = 800 - this.radius;
-        this.x += this.velocity.x * this.game.clockTick;
-        this.y += this.velocity.y * this.game.clockTick;
-    }
-
-    for (var i = 0; i < this.game.entities.length; i++) {
-        var ent = this.game.entities[i];
-        if (ent !== this && this.collide(ent)) {
-            var temp = { x: this.velocity.x, y: this.velocity.y };
-
-            var dist = distance(this, ent);
-            var delta = this.radius + ent.radius - dist;
-            var difX = (this.x - ent.x)/dist;
-            var difY = (this.y - ent.y)/dist;
-
-            this.x += difX * delta / 2;
-            this.y += difY * delta / 2;
-            ent.x -= difX * delta / 2;
-            ent.y -= difY * delta / 2;
-
-            this.velocity.x = ent.velocity.x * friction;
-            this.velocity.y = ent.velocity.y * friction;
-            ent.velocity.x = temp.x * friction;
-            ent.velocity.y = temp.y * friction;
-            this.x += this.velocity.x * this.game.clockTick;
-            this.y += this.velocity.y * this.game.clockTick;
-            ent.x += ent.velocity.x * this.game.clockTick;
-            ent.y += ent.velocity.y * this.game.clockTick;
-            if (this.it) {
-                this.setNotIt();
-                ent.setIt();
-            }
-            else if (ent.it) {
-                this.setIt();
-                ent.setNotIt();
-            }
-        }
-
-        if (ent != this && this.collide({ x: ent.x, y: ent.y, radius: this.visualRadius })) {
-            var dist = distance(this, ent);
-            if (this.it && dist > this.radius + ent.radius + 10) {
-                var difX = (ent.x - this.x)/dist;
-                var difY = (ent.y - this.y)/dist;
-                this.velocity.x += difX * acceleration / (dist*dist);
-                this.velocity.y += difY * acceleration / (dist * dist);
-                var speed = Math.sqrt(this.velocity.x*this.velocity.x + this.velocity.y*this.velocity.y);
-                if (speed > maxSpeed) {
-                    var ratio = maxSpeed / speed;
-                    this.velocity.x *= ratio;
-                    this.velocity.y *= ratio;
-                }
-            }
-            if (ent.it && dist > this.radius + ent.radius) {
-                var difX = (ent.x - this.x) / dist;
-                var difY = (ent.y - this.y) / dist;
-                this.velocity.x -= difX * acceleration / (dist * dist);
-                this.velocity.y -= difY * acceleration / (dist * dist);
-                var speed = Math.sqrt(this.velocity.x * this.velocity.x + this.velocity.y * this.velocity.y);
-                if (speed > maxSpeed) {
-                    var ratio = maxSpeed / speed;
-                    this.velocity.x *= ratio;
-                    this.velocity.y *= ratio;
-                }
+GameLife.prototype.draw = function () {
+    // console.log("fafa");
+    for (let i = 0; i < this.cols; i++) {
+        for (let j = 0; j < this.rows; j++) {
+            let x = i * this.resolution;
+            let y = j * this.resolution;
+            if (this.grid[i][j] === 1) {
+                this.ctx.fillStyle = generateRandomColor();
+                // this.ctx.fillStyle = 'White';
+                this.ctx.fillRect(x,y,this.resolution-1, this.resolution-1);
             }
         }
     }
+}
+
+GameLife.prototype.update = function () {
+    // console.log("hah");
+    let next = make2DArray(this.cols, this.rows);
+    for (let i = 0; i < this.cols; i++) {
+        for (let j = 0; j < this.rows; j++) {
+          let state = this.grid[i][j];
+
+          let neighbors = countNeighbors(this.grid, i, j,this.cols, this.rows);
+          if (state === 0 && neighbors  === 3) {
+            next[i][j] = 1;
+         
+          }
+          else if ( state === 1 && (neighbors <2 || neighbors > 3)) {
+            next[i][j] = 0;
+          }
+          else {
+            next[i][j] = state;
+          } 
+        } 
+    }
+    this.grid = next;
+    // if (checkTwoState(this.grid, next)) {
+    //     for (let i = 0; i < this.cols; i++) {
+    //         for (let j = 0; j < this.rows; j++) {
+    //             this.grid[i][j] =Math.floor(Math.random() * 2);
+    //         }
+    //     }
+    // }
+    // else {
+    //     this.grid = next;
+    // }
+    
+}
 
 
-    this.velocity.x -= (1 - friction) * this.game.clockTick * this.velocity.x;
-    this.velocity.y -= (1 - friction) * this.game.clockTick * this.velocity.y;
-};
+function make2DArray(cols, rows) {
+    let arr = new Array(cols);
+    for (let i = 0; i < arr.length; i++) {
+      arr[i] = new Array(rows);
+      for (let j = 0; j < rows; j++) {
+      }
+    }
+    return arr;
+}
 
-Circle.prototype.draw = function (ctx) {
-    // ctx.drawImage(this.bumperCar, this.x, this.y,150,150);
-    ctx.beginPath();
-    ctx.fillStyle = this.colors[this.color];
-    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-    ctx.fill();
-    ctx.closePath();
-};
+function generateRandomColor()
+{
+    var randomColor = '#'+Math.floor(Math.random()*16777215).toString(16);
+    return randomColor;
+    //random color will be freshly served
+}
+
+function countNeighbors(grid, x, y,cols, rows) {
+    let sum = 0;
+    console.log(sum);
+    for (let i = -1; i <2; i++) {
+      for (let j = -1; j < 2; j++) {
+        let col = (x+i+cols) % cols;
+        let row = (y+j+rows) % rows;
+        // console.log(rol);
+        sum += grid[col][row];
+      } 
+    }
+    // console.log(sum);
+    // sum -= grid[x][y];
+    return sum;
+}
+
+
+function checkTwoState(first, second) {
+    for (let i = 0; i < first.length; i++) {
+        for (let j = 0; j < first[0].length;j++){
+            if (first[i][j] !== second[i][j]) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
 
 
 
-
-// the "main" code begins here
-var friction = 1;
-var acceleration = 1000000;
-var maxSpeed = 200;
+// AM.queueDownload("./img/mushroomdude.png");
 
 
-
-ASSET_MANAGER.downloadAll(function () {
-    console.log("starting up da sheild");
-    var canvas = document.getElementById('gameWorld');
-    var ctx = canvas.getContext('2d');
+AM.downloadAll(function () {
+    var canvas = document.getElementById("gameWorld");
+    var ctx = canvas.getContext("2d");
 
     var gameEngine = new GameEngine();
-    var circle = new Circle(gameEngine);
-    circle.setIt();
-    gameEngine.addEntity(circle);
-    for (var i = 0; i < 12; i++) {
-        circle = new Circle(gameEngine);
-        gameEngine.addEntity(circle);
-    }
     gameEngine.init(ctx);
     gameEngine.start();
+
+    gameEngine.addEntity(new Background(gameEngine));
+    gameEngine.addEntity(new GameLife(gameEngine,canvas.width, canvas.height));
+
+
+    //gameEngine.addEntity(new Guy(gameEngine, AM.getAsset("./img/RobotUnicorn.png")));
+
+    console.log("All Done!");
 });
