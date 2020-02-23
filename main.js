@@ -93,6 +93,7 @@ GameLife.prototype.update = function () {
     var thirdButton = document.getElementById("Pulsar");
     var fourthButton = document.getElementById("Random");
     var fifthButton = document.getElementById("Colorful");
+    var sixthButton = document.getElementById("Remove");
 
     // console.log(gosperGun);
     firstButton.onclick = function changeContent() {
@@ -123,6 +124,11 @@ GameLife.prototype.update = function () {
             // console.log(color);
             color = true;
         }
+    }
+
+    
+    sixthButton.onclick = function changeContent() {
+        clean = true;
     }
         
  
@@ -167,7 +173,7 @@ GameLife.prototype.update = function () {
 
     if (clean) {
         this.grid = make2DArray(this.cols, this.rows);
-        clean =false;
+        clean = false;
     }
     // else{
     //     this.grid = make2DArray(this.cols,this.rows);
