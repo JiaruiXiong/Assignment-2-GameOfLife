@@ -38,7 +38,7 @@ function GameLife(game,width, height) {
     // this.gosperGunButton = document.getElementById("Gosper");
 
 
-    this.gosperGun = false;
+    this.gosperGun = true;;
     this.simkinGun = false;
     this.pulsar = false;
     this.random = false;
@@ -79,7 +79,42 @@ GameLife.prototype.draw = function () {
     }
 }
 
+
+
 GameLife.prototype.update = function () {
+
+    var firstButton = document.getElementById("Gosper");
+    var secondButton = document.getElementById("Simkin");
+    var thirdButton = document.getElementById("Pulsar");
+    var fourthButton = document.getElementById("Random");
+    var fifthButton = document.getElementById("Colorful");
+    // this.gosperGun = true;
+
+    // firstButton.onclick = function changeShape() {
+    //     if (this.gosperGun){
+    //         this.gosperGun = true;
+    //     }
+    //     else {
+    //         this.gosperGun = false;
+    //     }
+    // }
+
+    // console.log(this.color);
+    fifthButton.onclick = function changeContent() {
+        
+        if (this.color) {
+            fifthButton.innerText = 'White Cell';
+            // console.log(this.color);
+            this.color = false;
+        }
+        else {
+            fifthButton.innerText = 'Color Cell';
+            // console.log(this.color);
+            this.color = true;
+        }
+        
+    }
+
     // console.log("hah");
     let next = make2DArray(this.cols, this.rows);
     for (let i = 0; i < this.cols; i++) {
