@@ -1,6 +1,6 @@
 var AM = new AssetManager();
 
-var gosperGun = true;
+var gosperGun = false;
 var simkinGun = false;
 var pulsar = false;
 var random = false;
@@ -94,14 +94,22 @@ GameLife.prototype.update = function () {
     var fourthButton = document.getElementById("Random");
     var fifthButton = document.getElementById("Colorful");
 
-    // firstButton.onclick = function changeShape() {
-    //     if (this.gosperGun){
-    //         this.gosperGun = true;
-    //     }
-    //     else {
-    //         this.gosperGun = false;
-    //     }
-    // }
+    // console.log(gosperGun);
+    firstButton.onclick = function changeContent() {
+        gosperGun = true;
+    }
+
+    secondButton.onclick = function changeContent() {
+        simkinGun = true;
+    }
+
+    thirdButton.onclick = function changeContent() {
+        pulsar = true;
+    }
+
+    fourthButton.onclick = function changeContent() {
+        random = true;
+    }
 
     // console.log(this.color);
     fifthButton.onclick = function changeContent() {
@@ -159,6 +167,7 @@ GameLife.prototype.update = function () {
 
     if (clean) {
         this.grid = make2DArray(this.cols, this.rows);
+        clean =false;
     }
     // else{
     //     this.grid = make2DArray(this.cols,this.rows);
