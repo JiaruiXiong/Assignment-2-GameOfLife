@@ -35,8 +35,16 @@ function GameLife(game,width, height) {
     
     // this.grid = make2DArray(this.cols, this.rows);
 
-    //Gosper  Glider Gun
-    // this.grid = makeGosperGliderGun(this.cols, this.rows);
+    // this.gosperGunButton = document.getElementById("Gosper");
+
+
+    this.gosperGun = false;
+    this.simkinGun = false;
+    this.pulsar = false;
+    this.random = false;
+    this.clean = false;
+    //Gosper Glider Gun
+    this.grid = makeGosperGliderGun(this.cols, this.rows);
 
     // Simkin glider Gun
     // this.grid = makeSimkinGliderGun(this.cols,this.rows);
@@ -46,7 +54,7 @@ function GameLife(game,width, height) {
 
 
     // random grid
-    this.grid = makeRandom(this.cols, this.rows);
+    // this.grid = makeRandom(this.cols, this.rows);
     this.game = game;
     this.ctx = game.ctx;
 }
@@ -72,7 +80,7 @@ GameLife.prototype.update = function () {
     for (let i = 0; i < this.cols; i++) {
         for (let j = 0; j < this.rows; j++) {
           let state = this.grid[i][j];
-          console.log(state);
+        //   console.log(state);
           let neighbors = countNeighbors(this.grid, i, j,this.cols, this.rows);
           if (state === 0 && neighbors  === 3) {
             // console.log("haha: "+i,j);
@@ -88,15 +96,29 @@ GameLife.prototype.update = function () {
         } 
     }
     this.grid = next;
-    // if (checkTwoState(this.grid, next)) {
-    //     for (let i = 0; i < this.cols; i++) {
-    //         for (let j = 0; j < this.rows; j++) {
-    //             this.grid[i][j] =Math.floor(Math.random() * 2);
-    //         }
-    //     }
-    // }
-    // else {
-    //     this.grid = next;
+    
+    if (this.gosperGun) {
+        this.grid = makeGosperGliderGun(this.cols, this.rows);
+        this.gosperGun = false;
+    }
+    else if (this.simkinGun) {
+        this.grid = makeSimkinGliderGun(this.cols, this.rows);
+        this.simkinGun = false;
+    }
+    else if (this.pulsar) {
+        this.grid = makePulsar(this.cols,this.rows);
+        this.pulsar = false;
+    }
+    else if (this.random) {
+        this.grid = makeRandom(this.cols, this.rows);
+        this.random = false;
+    }
+
+    if (this.clean) {
+        this.grid = make2DArray(this.cols, this.rows);
+    }
+    // else{
+    //     this.grid = make2DArray(this.cols,this.rows);
     // }
     
 }
