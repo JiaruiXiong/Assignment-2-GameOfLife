@@ -1,6 +1,11 @@
 var AM = new AssetManager();
 
-
+var gosperGun = true;
+var simkinGun = false;
+var pulsar = false;
+var random = false;
+var clean = false;
+var color = false;
 
 
 
@@ -38,12 +43,12 @@ function GameLife(game,width, height) {
     // this.gosperGunButton = document.getElementById("Gosper");
 
 
-    this.gosperGun = true;;
-    this.simkinGun = false;
-    this.pulsar = false;
-    this.random = false;
-    this.clean = false;
-    this.color = false;
+    // this.gosperGun = false;
+    // this.simkinGun = false;
+    // this.pulsar = false;
+    // this.random = false;
+    // this.clean = false;
+    // this.color = false;
     //Gosper Glider Gun
     // this.grid = makeGosperGliderGun(this.cols, this.rows);
 
@@ -67,7 +72,7 @@ GameLife.prototype.draw = function () {
             let x = i * this.resolution;
             let y = j * this.resolution;
             if (this.grid[i][j] === 1) {
-                if (this.color) {
+                if (color) {
                     this.ctx.fillStyle = generateRandomColor();
                 }
                 else{
@@ -88,7 +93,6 @@ GameLife.prototype.update = function () {
     var thirdButton = document.getElementById("Pulsar");
     var fourthButton = document.getElementById("Random");
     var fifthButton = document.getElementById("Colorful");
-    // this.gosperGun = true;
 
     // firstButton.onclick = function changeShape() {
     //     if (this.gosperGun){
@@ -101,20 +105,19 @@ GameLife.prototype.update = function () {
 
     // console.log(this.color);
     fifthButton.onclick = function changeContent() {
-        
-        if (this.color) {
-            fifthButton.innerText = 'White Cell';
-            // console.log(this.color);
-            this.color = false;
+        if (color) {
+            fifthButton.innerText = 'Color Cell';   // checked
+            // console.log(color);
+            color = false;                     // checked
         }
         else {
-            fifthButton.innerText = 'Color Cell';
-            // console.log(this.color);
-            this.color = true;
+            fifthButton.innerText = 'White Cell';
+            // console.log(color);
+            color = true;
         }
-        
     }
-
+        
+ 
     // console.log("hah");
     let next = make2DArray(this.cols, this.rows);
     for (let i = 0; i < this.cols; i++) {
@@ -137,24 +140,24 @@ GameLife.prototype.update = function () {
     }
     this.grid = next;
     
-    if (this.gosperGun) {
+    if (gosperGun) {
         this.grid = makeGosperGliderGun(this.cols, this.rows);
-        this.gosperGun = false;
+        gosperGun = false;
     }
-    else if (this.simkinGun) {
+    else if (simkinGun) {
         this.grid = makeSimkinGliderGun(this.cols, this.rows);
-        this.simkinGun = false;
+        simkinGun = false;
     }
-    else if (this.pulsar) {
+    else if (pulsar) {
         this.grid = makePulsar(this.cols,this.rows);
-        this.pulsar = false;
+        pulsar = false;
     }
-    else if (this.random) {
+    else if (random) {
         this.grid = makeRandom(this.cols, this.rows);
-        this.random = false;
+        random = false;
     }
 
-    if (this.clean) {
+    if (clean) {
         this.grid = make2DArray(this.cols, this.rows);
     }
     // else{
