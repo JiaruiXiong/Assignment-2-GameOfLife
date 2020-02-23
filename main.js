@@ -33,7 +33,7 @@ function GameLife(game,width, height) {
     this.cols = this.width / this.resolution;
     this.rows = this.height/ this.resolution;
     
-    // this.grid = make2DArray(this.cols, this.rows);
+    this.grid = make2DArray(this.cols, this.rows);
 
     // this.gosperGunButton = document.getElementById("Gosper");
 
@@ -43,8 +43,9 @@ function GameLife(game,width, height) {
     this.pulsar = false;
     this.random = false;
     this.clean = false;
+    this.color = false;
     //Gosper Glider Gun
-    this.grid = makeGosperGliderGun(this.cols, this.rows);
+    // this.grid = makeGosperGliderGun(this.cols, this.rows);
 
     // Simkin glider Gun
     // this.grid = makeSimkinGliderGun(this.cols,this.rows);
@@ -66,8 +67,12 @@ GameLife.prototype.draw = function () {
             let x = i * this.resolution;
             let y = j * this.resolution;
             if (this.grid[i][j] === 1) {
-                // this.ctx.fillStyle = generateRandomColor();
-                this.ctx.fillStyle = 'White';
+                if (this.color) {
+                    this.ctx.fillStyle = generateRandomColor();
+                }
+                else{
+                    this.ctx.fillStyle = 'White'; 
+                }
                 this.ctx.fillRect(x,y,this.resolution-1, this.resolution-1);
             }
         }
