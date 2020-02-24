@@ -6,6 +6,7 @@ var pulsar = false;
 var random = false;
 var clean = false;
 var color = false;
+var play = false;
 
 
 
@@ -94,6 +95,7 @@ GameLife.prototype.update = function () {
     var fourthButton = document.getElementById("Random");
     var fifthButton = document.getElementById("Colorful");
     var sixthButton = document.getElementById("Remove");
+    var seventhButton = document.getElementById("Play");
 
     // console.log(gosperGun);
     firstButton.onclick = function changeContent() {
@@ -130,29 +132,44 @@ GameLife.prototype.update = function () {
     sixthButton.onclick = function changeContent() {
         clean = true;
     }
+
+    seventhButton.onclick = function changeContent() {
+        if (play) {
+            seventhButton.innerText = 'Play';   // checked
+            // console.log(color);
+            play = false;                     // checked
+        }
+        else {
+            seventhButton.innerText = 'Stop';
+            // console.log(color);
+            play = true;
+        }
+    }
         
  
     // console.log("hah");
-    let next = make2DArray(this.cols, this.rows);
-    for (let i = 0; i < this.cols; i++) {
-        for (let j = 0; j < this.rows; j++) {
-          let state = this.grid[i][j];
-        //   console.log(state);
-          let neighbors = countNeighbors(this.grid, i, j,this.cols, this.rows);
-          if (state === 0 && neighbors  === 3) {
-            // console.log("haha: "+i,j);
-            next[i][j] = 1;
-         
-          }
-          else if ( state === 1 && (neighbors <2 || neighbors > 3)) {
-            next[i][j] = 0;
-          }
-          else {
-            next[i][j] = state;
-          } 
-        } 
+    if (play) {
+        let next = make2DArray(this.cols, this.rows);
+        for (let i = 0; i < this.cols; i++) {
+            for (let j = 0; j < this.rows; j++) {
+              let state = this.grid[i][j];
+            //   console.log(state);
+              let neighbors = countNeighbors(this.grid, i, j,this.cols, this.rows);
+              if (state === 0 && neighbors  === 3) {
+                // console.log("haha: "+i,j);
+                next[i][j] = 1;
+             
+              }
+              else if ( state === 1 && (neighbors <2 || neighbors > 3)) {
+                next[i][j] = 0;
+              }
+              else {
+                next[i][j] = state;
+              } 
+            } 
+        }
+        this.grid = next;
     }
-    this.grid = next;
     
     if (gosperGun) {
         this.grid = makeGosperGliderGun(this.cols, this.rows);
