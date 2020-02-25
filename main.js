@@ -6,6 +6,7 @@ var pulsar = false;
 var random = false;
 var clean = false;
 var color = false;
+var other = false;
 var play = false;
 
 
@@ -104,6 +105,7 @@ GameLife.prototype.update = function () {
     var fifthButton = document.getElementById("Colorful");
     var sixthButton = document.getElementById("Remove");
     var seventhButton = document.getElementById("Play");
+    var eighthButton = document.getElementById("Other");
 
     // console.log(gosperGun);
     firstButton.onclick = function changeContent() {
@@ -153,6 +155,10 @@ GameLife.prototype.update = function () {
             play = true;
         }
     }
+
+    eighthButton.onclick = function changeContent() {
+        other = true;
+    }
         
  
     // console.log("hah");
@@ -194,6 +200,10 @@ GameLife.prototype.update = function () {
     else if (random) {
         this.grid = makeRandom(this.cols, this.rows);
         random = false;
+    }
+    else if (other) {
+        this.grid = makeOther(this.cols, this.rows);
+        other = false;
     }
 
     if (clean) {
@@ -638,6 +648,152 @@ function makeRandom(cols, rows) {
             grid[i][j] = Math.floor(Math.random() * 2);
       }
     }
+    return grid;
+}
+
+
+
+function makeOther(cols, rows) {
+    var grid = make2DArray(cols, rows);
+    for (let i = 0; i < cols; i++) {
+        for (let j = 0; j < rows; j++) {
+            if (    // first thing in other
+                    ( i === 8 && j === 9)
+                ||  ( i === 6 && j === 10)
+                ||  ( i === 7 && j === 9)
+                ||  ( i === 7 && j === 10)
+
+                ||  ( i === 10 && j === 9)
+                ||  ( i === 10 && j === 10)
+                ||  ( i === 11 && j === 9)
+                ||  ( i === 11 && j === 10)
+                
+                ||  ( i === 13 && j === 9)
+                ||  ( i === 13 && j === 10)
+                ||  ( i === 14 && j === 10)
+                ||  ( i === 14 && j === 11)
+
+                ||  ( i === 14 && j === 13)
+                ||  ( i === 14 && j === 14)
+                ||  ( i === 13 && j === 13)
+                ||  ( i === 13 && j === 14)
+
+                ||  ( i === 13 && j === 16)
+                ||  ( i === 14 && j === 16)
+                ||  ( i === 13 && j === 17)
+                ||  ( i === 12 && j === 17)
+
+                ||  ( i === 10 && j === 16)
+                ||  ( i === 10 && j === 17)
+                ||  ( i === 9 && j === 16)
+                ||  ( i === 9 && j === 17)
+
+                ||  ( i === 7 && j === 16)
+                ||  ( i === 7 && j === 17)
+                ||  ( i === 6 && j === 16)
+                ||  ( i === 6 && j === 15)
+
+                ||  ( i === 7 && j === 12)
+                ||  ( i === 7 && j === 13)
+                ||  ( i === 6 && j === 12)
+                ||  ( i === 6 && j === 13)
+
+
+                // second thing on other
+                ||  ( i === 21 && j === 42)//左边最底下
+                ||  ( i === 20 && j === 40)
+                ||  ( i === 20 && j === 41)
+                ||  ( i === 21 && j === 39)
+                ||  ( i === 22 && j === 39)
+                ||  ( i === 23 && j === 39)
+                ||  ( i === 22 && j === 38)
+                ||  ( i === 23 && j === 38)
+                ||  ( i === 23 && j === 37)
+                ||  ( i === 24 && j === 37)
+
+                ||  ( i === 25 && j === 38)
+                ||  ( i === 25 && j === 39)
+                ||  ( i === 25 && j === 40)
+                ||  ( i === 24 && j === 40)
+
+                ||  ( i === 27 && j === 40)
+                ||  ( i === 28 && j === 40)
+                ||  ( i === 27 && j === 39)
+                ||  ( i === 27 && j === 38)
+
+                ||  ( i === 28 && j === 37)
+                ||  ( i === 29 && j === 37)
+                ||  ( i === 29 && j === 38)
+                ||  ( i === 29 && j === 39)
+                ||  ( i === 30 && j === 39)
+                ||  ( i === 30 && j === 38)
+                ||  ( i === 31 && j === 39)
+                ||  ( i === 32 && j === 40)
+                ||  ( i === 32 && j === 41)
+                ||  ( i === 31 && j === 42)
+
+                ||  ( i === 29 && j === 45)
+                ||  ( i === 28 && j === 46)
+                ||  ( i === 28 && j === 44)
+                ||  ( i === 27 && j === 44)
+                ||  ( i === 27 && j === 45)
+
+                ||  ( i === 25 && j === 45)
+                ||  ( i === 25 && j === 44)
+                ||  ( i === 24 && j === 44)
+                ||  ( i === 24 && j === 46)
+                ||  ( i === 23 && j === 45)
+
+
+                // third thing on other
+                ||  ( i === 48 && j === 40) // starting point on third
+                ||  ( i === 49 && j === 41)
+                ||  ( i === 49 && j === 39)
+                ||  ( i === 50 && j === 39)
+                ||  ( i === 50 && j === 38)
+                ||  ( i === 51 && j === 41)
+                ||  ( i === 52 && j === 41)
+                ||  ( i === 52 && j === 37)
+                ||  ( i === 53 && j === 37)
+                ||  ( i === 54 && j === 38)
+                ||  ( i === 54 && j === 39)
+                ||  ( i === 54 && j === 40)
+                ||  ( i === 54 && j === 41)
+
+                ||  ( i === 56 && j === 38)
+                ||  ( i === 56 && j === 39)
+                ||  ( i === 56 && j === 40)
+                ||  ( i === 56 && j === 41)
+
+                ||  ( i === 58 && j === 41)
+                ||  ( i === 59 && j === 41)
+                ||  ( i === 61 && j === 41)
+                ||  ( i === 62 && j === 40)
+                ||  ( i === 61 && j === 39)
+                ||  ( i === 60 && j === 39)
+
+                ||  ( i === 60 && j === 38)
+                ||  ( i === 58 && j === 37)
+                ||  ( i === 57 && j === 37)
+                ||  ( i === 56 && j === 35)
+                ||  ( i === 55 && j === 35)
+                ||  ( i === 54 && j === 35)
+                ||  ( i === 57 && j === 34)
+                ||  ( i === 56 && j === 33)
+                ||  ( i === 55 && j === 32)
+                ||  ( i === 54 && j === 33)
+                ||  ( i === 53 && j === 34)
+
+
+            ) {
+                grid[i][j] = 1;
+            }
+            else {
+                grid[i][j] = 0;
+            }
+              
+        }
+      }
     return grid;
 }
 
